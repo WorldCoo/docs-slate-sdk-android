@@ -385,7 +385,7 @@ _Gets campaign details_
 **onError(ErrorBody error, RequestType type)**
 
 * _error_ : Error code, type and message
-* _type_ : GET_CAMPAIGNS
+* _type_ : CAMPAIGN_DETAILS
 
 
 ## 4.5 - addDonation(Donation donation)
