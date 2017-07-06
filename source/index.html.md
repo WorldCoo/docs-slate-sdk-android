@@ -121,6 +121,26 @@ _Returns Donor API mode_
 
 # 4 - API integration
 
+> API integration example
+
+```java
+// SDK initialization
+Worldcoo sdk = Worldcoo.getInstance()
+sdk.init(context, productionMode)
+
+// Donor API Client
+// Being call from a context (fragmento or activity) that implements NativeListener interface
+sdk.getAPIClient().getAvailableNGOs(context,listener)
+
+// This will be received from callback: 
+onAvailableNGOs(List<NGO>)
+
+// If there are errors
+onError(ErrorBody, request)
+
+// Same way to proceed with all Donor API methods
+```
+
 These are the public methods provided by the SDK to interact with the Worldcoo Donation API:
 
 
@@ -553,28 +573,3 @@ _Injects the widget first step on the given webview._
 ## 5.4 - confirmation()
 
 _Injects the widget second step on the given webview._
-
-
-# 6 - Examples
-
-```java
-// SDK initialization
-Worldcoo sdk = Worldcoo.getInstance()
-sdk.init(context, productionMode)
-
-// Donor API Client
-sdk.getAPIClient().getAvailableNGOs(context,listener) // Being call from a context (fragmento or activity) that implements NativeListener interface
-
-// This will be received from callback: 
-onAvailableNGOs(List<NGO>)
-
-// If there are errors
-onError(ErrorBody, request)
-
-// Same way to proceed with all Donor API methods
-
-// Injector
-// Construct and create the widget object
-sdk.getWidgetInjector(Webview, Widget)
-sdk.initialStep()
-```
