@@ -64,13 +64,19 @@ Keys will be read from the AndroidManifest.xml as metadata and could be declared
 If everything has been declared in a proper way, the SDK method init(..) will load the keys automatically.
 
 
-# 3 - Usage
 
-## 3.1 - Common methods
+# 3 - Initialization
+
+> Initialization example
+
+```java
+Worldcoo sdk = Worldcoo.getInstance()
+sdk.init(context, productionMode)
+```
 
 These are the common public methods, both for API integration and Widget injection
 
-### 3.1.1 - public static getInstance()
+## 3.1 - public static getInstance()
 
 _Return the instance of the SDK._
 
@@ -79,7 +85,7 @@ _Return the instance of the SDK._
 * Worldcoo’s SDK instance
 
 
-### 3.1.2 - init(Context appContext, boolean productionMode)
+## 3.2 - init(Context appContext, boolean productionMode)
 
 _Initializes the SDK_
 
@@ -94,7 +100,7 @@ _Initializes the SDK_
 * False if some errors occurs loading API keys
 
 
-### 3.1.3 - setProductionMode(boolean productionMode)
+## 3.3 - setProductionMode(boolean productionMode)
 
 _Sets mode of Donor API REST usage_
 
@@ -103,7 +109,7 @@ _Sets mode of Donor API REST usage_
 * _productionMode_ : True if production mode or false if using the REST API in sandbox mode.
  
  
-### 3.1.4 - isProductionMode()
+## 3.4 - isProductionMode()
  
 _Returns Donor API mode_
 
@@ -113,12 +119,12 @@ _Returns Donor API mode_
 
 
 
-## 3.2 - API integration
+# 4 - API integration
 
 These are the public methods provided by the SDK to interact with the Worldcoo Donation API:
 
 
-### 3.2.1 - getAPIClient(Context context,  DonorListener listener)
+## 4.1 - getAPIClient(Context context,  DonorListener listener)
 
 _Returns a client to easily interact with the Donor web API_
 
@@ -132,7 +138,39 @@ _Returns a client to easily interact with the Donor web API_
 * DonorAPIClient instance
 
 
-### 3.2.2 - getAvailableNGOs(int offset, int limit)
+## 4.2 - getAvailableNGOs(int offset, int limit)
+
+> Response example
+
+```java
+[
+    {
+        "id": "8720fdd5-1b10-a4c8-a614",
+        "name": "NGO Name Example 1",
+        "url": "http://www.examplengo1.com",
+        "description": "This is an example of NGO description."
+        "logos": {
+            "S": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/logo.1479742005411.S.jpg",
+            "M": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/logo.1479742005411.M.jpg",
+            "L": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/logo.1479742005411.L.jpg"
+        },
+        "media": {},
+    },
+    {
+        "id": "6582d7k1-7d61-99dc-b213",
+        "name": "NGO Name Example 2",
+        "url": "http://www.examplengo2.com",
+        "description": "This is an example of NGO description."
+        "logos": {
+            "S": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/logo.1479742005411.S.jpg",
+            "M": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/logo.1479742005411.M.jpg",
+            "L": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/logo.1479742005411.L.jpg"
+        },
+        "media": {},
+    },
+    ...
+]
+```
 
 <aside class="notice">
     This method is a wrapper for the <a href="http://docs.worldcoo.com/api/v3/#get-available-ngos" target="_blank">Get Available NGOs</a> Worldcoo API endpoint.
@@ -145,9 +183,9 @@ _Gets available NGOs_
 * _offset_ : The amount of items to ignore. _(optional value, default=0)_
 * _limit_ : The maximum number of items to return. _(optional value, default=20)_
 
-**return**
+**availableNGOs(ArrayList<NGO> ngos)**
 
-* availableNGOs(ArrayList<NGO> ngos)
+* _ngos_ : List of ngos
 
 **onError(ErrorBody error, RequestType type)**
 
@@ -155,7 +193,73 @@ _Gets available NGOs_
 * _type_ : GET_NGOS
 
 
-### 3.2.3 - getAvailableCampaigns(String ngo_id, int offset, int limit)
+## 4.3 - getAvailableCampaigns(String ngo_id, int offset, int limit)
+
+> Response example
+
+```java
+[
+    {
+        "id": "a9fb530d-6270-0cc7-e8a8",
+        "alias": "Demo campaign",
+        "ngo_id": "2454de2c-cb31-44e5-83bd",
+        "status": "active",
+        "location": {
+            "country": "ESP",
+            "name": "Barcelona"
+        },
+        "categories": ["water_and_energy", "hunger_and_food_security"],
+        "currency": "EUR",
+        "collection_objective": {
+            "total": 500,
+            "distribution": {
+                "materials": 100,
+                "team": 100,
+                "transport": 50,
+                "others": 200,
+                "providers": 50
+            }
+        },
+        "beneficiaries": {
+            "direct": 400,
+            "indirect": 1000
+        },
+        "starting_date": 1464277166,
+        "ending_date": null,
+        "media": {
+            "eaba63b5-d7be-4de8-a53e-283c9104a9a6": {
+                "S": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.S.jpg",
+                "L": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.L.jpg",
+                "M": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.M.jpg",
+                "XL": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.XL.jpg"
+            },
+            "89bfea45-5704-4e4b-9aab-b80c3ac1fa9c": {
+                "S": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.S.jpg",
+                "L": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.L.jpg",
+                "M": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.M.jpg",
+                "XL": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.XL.jpg"
+            }
+        },
+        "counters": {
+            "donors": 467,
+            "donated": 5035
+        },
+        "texts": {
+            "name": "NGO Campaign 1",
+            "name_short": "Cmpgn 1",
+            "resume": "This is an example of campaign description.",
+            "resume_short": "CampaignDescription",
+            "activities": "",
+            "objectives": "",
+            "benefits": "",
+            "call_to_action": "",
+            "worldcoo_url": ""
+        }
+    },
+    ...
+]
+```
+
 
 <aside class="notice">
     This method is a wrapper for the <a href="http://docs.worldcoo.com/api/v3/#get-available-campaigns" target="_blank">Get available campaigns</a> Worldcoo API endpoint.
@@ -169,9 +273,94 @@ _Gets available campaign from an NGO._
 * _offset_ : The amount of items to ignore. _(optional value, default=0)_
 * _limit_ : The maximum number of items to return. _(optional value, default=20)_
 
-**return**
+**availableCampaigns(ArrayList<Campaign> campaigns)**
 
-* availableCampaigns(ArrayList<Campaign> campaigns)
+* _campaigns_ : List of campaigns
+
+**onError(ErrorBody error, RequestType type)**
+
+* _error_ : Error code, type and message
+* _type_ : GET_CAMPAIGNS
+
+## 4.4 - getCampaignDetails(String: ngo_id, String: campaign_id)
+
+> Response example
+
+```java
+{
+    "id": "a9fb530d-6270-0cc7-e8a8",
+    "alias": "Demo campaign",
+    "ngo_id": "2454de2c-cb31-44e5-83bd",
+    "status": "active",
+    "location": {
+        "country": "ESP",
+        "name": "Barcelona"
+    },
+    "categories": ["water_and_energy", "hunger_and_food_security"],
+    "currency": "EUR",
+    "collection_objective": {
+        "total": 500,
+        "distribution": {
+            "materials": 100,
+            "team": 100,
+            "transport": 50,
+            "others": 200,
+            "providers": 50
+        }
+    },
+    "beneficiaries": {
+        "direct": 400,
+        "indirect": 1000
+    },
+    "starting_date": 1464277166,
+    "ending_date": null,
+    "media": {
+        "eaba63b5-d7be-4de8-a53e-283c9104a9a6": {
+            "S": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.S.jpg",
+            "L": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.L.jpg",
+            "M": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.M.jpg",
+            "XL": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.XL.jpg"
+        },
+        "89bfea45-5704-4e4b-9aab-b80c3ac1fa9c": {
+            "S": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.S.jpg",
+            "L": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.L.jpg",
+            "M": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.M.jpg",
+            "XL": "https://cdn.worldcoo.com/ngos/ee80cf92-d49b-4b7c-9949-9946750ec451/campaigns/f6425839-1e6f-4dd2-8d4d-593d61f5437f/media/eaba63b5-d7be-4de8-a53e-283c9104a9a6.1479739685956.XL.jpg"
+        }
+    },
+    "counters": {
+        "donors": 467,
+        "donated": 5035
+    },
+    "texts": {
+        "name": "NGO Campaign 1",
+        "name_short": "Cmpgn 1",
+        "resume": "This is an example of campaign description.",
+        "resume_short": "CampaignDescription",
+        "activities": "",
+        "objectives": "",
+        "benefits": "",
+        "call_to_action": "",
+        "worldcoo_url": ""
+    }
+}
+```
+
+
+<aside class="notice">
+    This method is a wrapper for the <a href="http://docs.worldcoo.com/api/v3/#get-campaign-details" target="_blank">Get campaign details</a> Worldcoo API endpoint.
+</aside>
+
+_Gets campaign details_
+
+**params**
+
+* _ngo_id_ : NGO identifier
+* _campaign_id_ : Campaign identifier
+
+**campaignDetail(Campaign: campaign)**
+
+* _campaign_ : Campaign information
 
 **onError(ErrorBody error, RequestType type)**
 
@@ -179,7 +368,22 @@ _Gets available campaign from an NGO._
 * _type_ : GET_CAMPAIGNS
 
 
-### 3.2.4 - addDonation(Donation donation)
+## 4.5 - addDonation(Donation donation)
+
+> Response example
+
+```java
+{
+    "id": "17a10455-120d-e767-0206",
+    "amount": 5,
+    "currency": "EUR",
+    "order_code": "9638467",
+    "campaign_counters": {
+        "total_donated": 60,
+        "target": 50000
+    }
+}
+```
 
 <aside class="notice">
     This method is a wrapper for the <a href="http://docs.worldcoo.com/api/v3/#add-donation" target="_blank">Add donation</a> Worldcoo API endpoint.
@@ -201,7 +405,22 @@ _Adds a donation_
 * _type_ : ADD_DONATION
 
 
-### 3.2.4 - cancelDonation(String donationId)
+## 4.6 - cancelDonation(String donationId)
+
+> Response example
+
+```java
+{
+    "id": "17a10455-120d-e767-0206",
+    "amount": 5,
+    "currency": "EUR",
+    "order_code": "9638467",
+    "campaign_counters": {
+        "total_donated": 60,
+        "target": 50000
+    }
+}
+```
 
 <aside class="notice">
     This method is a wrapper for the <a href="http://docs.worldcoo.com/api/v3/#cancel-donation" target="_blank">Cancel donation</a> Worldcoo API endpoint.
@@ -223,9 +442,45 @@ _Cancels a donation_
 * _type_ : CANCEL_DONATION
 
 
-## 3.3 - Widget injection
+# 5 - Widget injection
 
-### 3.3.1 - getInjector(Webview webview,  Widget widget)
+> Widget Workflow example
+
+```java
+// Construct and create the widget object
+Worldcoo sdk = Worldcoo.getInstance()
+sdk.init(context, productionMode)
+sdk.getWidgetInjector(Webview, Widget)
+
+// In your "cart" view you can inject the first step widget to let the user decide if he wants to donate
+sdk.initialStep()
+
+// The user continues the checkout process
+...
+// The user pays and the checkout process arrives to the "thanks" step
+
+// In your "thanks" view you can inject the confirmation step widget.
+sdk.confirmation()
+
+// If the user decided to donate, the donation will be sent to Worldcoo system and a thanks message will be shown
+// Otherwise, no donation will be sent and nothing will be shown
+```
+
+This is the way you can use the Worldcoo Widget inside your mobile app.
+
+Using the Worldcoo Widget is a two-steps process:
+
+* First of them is to inject the Initial Widget [_initialStep()_ method] where the user decides if he is going to donate or not and also the donation amount
+
+* Last step consists on injecting the Confirmation Widget [_confirmation()_ method], where the user choice is evaluated. So, depending on what the user selected on the first step, a donation will be set on out system or not.
+
+For sure, you'll need to know what the user choice is, so through the InjectorListener you can listen to the _change_ event while the Initial Widget is shown to act in consequence. For example, you'll need to add the selected donation amount to the cart total amount or maybe you want set a "withDonation" flag to your order.
+
+<aside class="notice">
+    You can read more about the Worldcoo Widget workflow <a href="http://docs.worldcoo.com/widget/v3/#2-step-integration" target="_blank">here</a>
+</aside> 
+
+## 5.1 - getInjector(Webview webview,  Widget widget)
 
 _Returns a widget injector instance_
 
@@ -239,7 +494,7 @@ _Returns a widget injector instance_
 * A WidgetInjector instance
 
 
-### 3.3.2 - addInjectorListener(InjectorListener listener)
+## 5.2 - addInjectorListener(InjectorListener listener)
 
 _Adds a listener to receive user interaction events from the widget injector_
 
@@ -248,17 +503,59 @@ _Adds a listener to receive user interaction events from the widget injector_
 * _InjectorListener_
 
 
-### 3.3.3 - initialStep()
+Through the InjectorListener you can listen for the following events:
+
+### 5.2.1 - ready(step: int)
+
+> Event data example
+
+```java
+{
+    step: 1
+}
+```
+
+Event triggered when the widget is initialized and the user can interact with it.
+
+**event data**
+
+* _step_ : the widget step that is ready for use [1: initial, 2: confirmation] 
+
+
+### 5.2.2 - change(widgetId: string, checked: boolean, amount: float, donationId: string)
+
+> Event data example
+
+```java
+{
+    widgetId: "f7629749-89aa-43e3-8b4b-9af3925a63ea",
+    checked: true,
+    amount: 1,
+    donationId: "ee6233f3-1d96-43f7-8fae-0da484c395d0"
+}
+```
+
+Event triggered when the user changes the donation amount or the checkbox status.
+
+**event data**
+
+* _widgetId_ : the widget ID
+* _checked_ : indicates if the checkbox is checked or not
+* _amount_ : the donation amount selected by the user
+* _donationId_ : the ID of the generated donation, or null
+
+
+## 5.3 - initialStep()
 
 _Injects the widget first step on the given webview._
 
 
-### 3.3.4 - confirmation()
+## 5.4 - confirmation()
 
 _Injects the widget second step on the given webview._
 
 
-## 3.4 - Example
+# 6 - Examples
 
 ```java
 // SDK initialization
