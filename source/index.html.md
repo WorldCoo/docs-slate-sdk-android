@@ -20,7 +20,7 @@ The Worldcoo Android SDK allows to this Operating System developers to interact 
 
 Follow these steps to include the Worldcoo SDK inside your app:
 
-* Download the SDK from <a href="https://cdn.worldcoo.com/download/sdk/android/Worldcoo-1.0.aar">here</a>
+* Download the SDK from <a href="https://cdn.worldcoo.com/download/sdk/android/Worldcoo-android-latest.aar">here</a>
 * Copy the .aar library to a project lib folder (i.e. /libs/ folder).
 * Add this line to the app build.gradle script on dependencies section:
 _compile(name:'httprestlib-release', ext:'aar')_
